@@ -1,29 +1,39 @@
 //Requiere
 var express = require('express');
 var mongoose = require('mongoose');
-
+var bodyParser = require('body-parser');
 
 //Iicializa Variables
-    var app = express();
+var app = express();
 
 
-//cnexion a la base de datos
-mongoose.connection.openUri('mongodb://localhost:27017/lavanderiaKyoDB',(err,res)=>{
+//Body Parser
+// parse application/x-www-form-urlenconded
+app.use(bodyParser.urlencoded({ extended: false }));
 
-if(err) throw err;
+//parse application/json
+app.use(bodyParser.json());
 
-console.log('Base de Datos: \x1b[32m%s\x1b[0m', 'online');
 
+//Importar rutas
+var appRoutes = require('./routes/app');
+var usuarioRoutes = require('./routes/usuario');
+var loginRoutes = require('./routes/login');
+
+
+
+//conexion a la base de datos
+mongoose.connection.openUri('mongodb://localhost:27017/lavanderiaKyoDB', (err, res) => {
+    if (err) throw err;
+    console.log('Base de Datos: \x1b[32m%s\x1b[0m', 'online');
 });
 
 
 //Rutas
-app.get('/', (req, res, next) => {
-    res.status(200).json({
-        ok: true,
-        mensaje: 'peticion realizada correctamente'
-    })
-})
+app.use('/usuario', usuarioRoutes);
+app.use('/login', loginRoutes);
+app.use('/', appRoutes);
+
 
 
 //Escuchar peticiones
@@ -65,18 +75,18 @@ app.listen(3000, () => {
 
 // FgWhite = "\x1b[37m"
 
-BgBlack = "\x1b[40m"
+// BgBlack = "\x1b[40m"
 
-BgRed = "\x1b[41m"
+// BgRed = "\x1b[41m"
 
-BgGreen = "\x1b[42m"
+// BgGreen = "\x1b[42m"
 
-BgYellow = "\x1b[43m"
+// BgYellow = "\x1b[43m"
 
-BgBlue = "\x1b[44m"
+// BgBlue = "\x1b[44m"
 
-BgMagenta = "\x1b[45m"
+// BgMagenta = "\x1b[45m"
 
-BgCyan = "\x1b[46m"
+// BgCyan = "\x1b[46m"
 
-BgWhite = "\x1b[47m"
+// BgWhite = "\x1b[47m"
